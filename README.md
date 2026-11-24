@@ -2,6 +2,8 @@
 
 A desk device that tracks how long I actually study. An Arduino detects when I'm sitting at my desk, a button starts and stops study sessions, and a web dashboard shows my focus time per day.
 
+![Dashboard showing focus minutes per day](docs/dashboard.jpg)
+
 **Why:** I wanted real numbers on my study habits instead of guessing. Timers and apps don't know if I actually stayed at my desk. This does.
 
 ## How it works
@@ -72,12 +74,21 @@ Each finished session is appended to `data/sessions.json`:
 { "started_at": "...", "ended_at": "...", "session_minutes": 50, "focus_minutes": 44.9, "focus_ratio": 0.9, "away_count": 1 }
 ```
 
+## Dashboard
+
+```sh
+cd logger
+npm run dashboard   # then open http://localhost:5173
+```
+
+Shows today's focus time, the last 7 days, the average focus ratio, a chart of focus minutes per day, and recent sessions. Until you've recorded real sessions it shows sample data (`dashboard/sample-sessions.json`).
+
 ## Roadmap
 
 - [x] Project plan, parts and wiring
 - [x] Arduino firmware: presence detection, button, LED, JSON events over serial
 - [x] Laptop logger: read serial events, save sessions
-- [ ] Web dashboard: focus minutes per day
+- [x] Web dashboard: focus minutes per day
 - [ ] Photos, wiring diagram and demo video
 - [ ] Stretch: weekly goals, streaks, and a small OLED display on the device
 

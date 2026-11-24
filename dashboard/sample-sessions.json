@@ -1,0 +1,226 @@
+[
+  {
+    "started_at": "2026-11-10T11:00:00-03:00",
+    "ended_at": "2026-11-10T11:25:00-03:00",
+    "session_minutes": 25,
+    "focus_minutes": 15.8,
+    "focus_ratio": 0.63,
+    "away_count": 4
+  },
+  {
+    "started_at": "2026-11-10T16:00:00-03:00",
+    "ended_at": "2026-11-10T16:25:00-03:00",
+    "session_minutes": 25,
+    "focus_minutes": 18.5,
+    "focus_ratio": 0.74,
+    "away_count": 0
+  },
+  {
+    "started_at": "2026-11-11T11:00:00-03:00",
+    "ended_at": "2026-11-11T12:00:00-03:00",
+    "session_minutes": 60,
+    "focus_minutes": 45.0,
+    "focus_ratio": 0.75,
+    "away_count": 1
+  },
+  {
+    "started_at": "2026-11-11T09:00:00-03:00",
+    "ended_at": "2026-11-11T09:25:00-03:00",
+    "session_minutes": 25,
+    "focus_minutes": 20.0,
+    "focus_ratio": 0.8,
+    "away_count": 0
+  },
+  {
+    "started_at": "2026-11-11T16:00:00-03:00",
+    "ended_at": "2026-11-11T17:30:00-03:00",
+    "session_minutes": 90,
+    "focus_minutes": 58.5,
+    "focus_ratio": 0.65,
+    "away_count": 1
+  },
+  {
+    "started_at": "2026-11-12T09:00:00-03:00",
+    "ended_at": "2026-11-12T09:40:00-03:00",
+    "session_minutes": 40,
+    "focus_minutes": 24.8,
+    "focus_ratio": 0.62,
+    "away_count": 1
+  },
+  {
+    "started_at": "2026-11-12T16:00:00-03:00",
+    "ended_at": "2026-11-12T16:50:00-03:00",
+    "session_minutes": 50,
+    "focus_minutes": 38.0,
+    "focus_ratio": 0.76,
+    "away_count": 4
+  },
+  {
+    "started_at": "2026-11-12T20:00:00-03:00",
+    "ended_at": "2026-11-12T20:25:00-03:00",
+    "session_minutes": 25,
+    "focus_minutes": 20.2,
+    "focus_ratio": 0.81,
+    "away_count": 4
+  },
+  {
+    "started_at": "2026-11-13T09:00:00-03:00",
+    "ended_at": "2026-11-13T10:30:00-03:00",
+    "session_minutes": 90,
+    "focus_minutes": 72.9,
+    "focus_ratio": 0.81,
+    "away_count": 1
+  },
+  {
+    "started_at": "2026-11-14T09:00:00-03:00",
+    "ended_at": "2026-11-14T10:30:00-03:00",
+    "session_minutes": 90,
+    "focus_minutes": 55.8,
+    "focus_ratio": 0.62,
+    "away_count": 1
+  },
+  {
+    "started_at": "2026-11-14T20:00:00-03:00",
+    "ended_at": "2026-11-14T21:00:00-03:00",
+    "session_minutes": 60,
+    "focus_minutes": 51.0,
+    "focus_ratio": 0.85,
+    "away_count": 3
+  },
+  {
+    "started_at": "2026-11-15T16:00:00-03:00",
+    "ended_at": "2026-11-15T16:50:00-03:00",
+    "session_minutes": 50,
+    "focus_minutes": 35.5,
+    "focus_ratio": 0.71,
+    "away_count": 1
+  },
+  {
+    "started_at": "2026-11-15T20:00:00-03:00",
+    "ended_at": "2026-11-15T20:40:00-03:00",
+    "session_minutes": 40,
+    "focus_minutes": 25.2,
+    "focus_ratio": 0.63,
+    "away_count": 2
+  },
+  {
+    "started_at": "2026-11-16T16:00:00-03:00",
+    "ended_at": "2026-11-16T17:00:00-03:00",
+    "session_minutes": 60,
+    "focus_minutes": 42.6,
+    "focus_ratio": 0.71,
+    "away_count": 0
+  },
+  {
+    "started_at": "2026-11-16T14:00:00-03:00",
+    "ended_at": "2026-11-16T14:25:00-03:00",
+    "session_minutes": 25,
+    "focus_minutes": 19.8,
+    "focus_ratio": 0.79,
+    "away_count": 1
+  },
+  {
+    "started_at": "2026-11-16T20:00:00-03:00",
+    "ended_at": "2026-11-16T20:50:00-03:00",
+    "session_minutes": 50,
+    "focus_minutes": 33.0,
+    "focus_ratio": 0.66,
+    "away_count": 3
+  },
+  {
+    "started_at": "2026-11-17T09:00:00-03:00",
+    "ended_at": "2026-11-17T10:30:00-03:00",
+    "session_minutes": 90,
+    "focus_minutes": 72.9,
+    "focus_ratio": 0.81,
+    "away_count": 2
+  },
+  {
+    "started_at": "2026-11-17T20:00:00-03:00",
+    "ended_at": "2026-11-17T20:50:00-03:00",
+    "session_minutes": 50,
+    "focus_minutes": 43.0,
+    "focus_ratio": 0.86,
+    "away_count": 4
+  },
+  {
+    "started_at": "2026-11-18T20:00:00-03:00",
+    "ended_at": "2026-11-18T20:25:00-03:00",
+    "session_minutes": 25,
+    "focus_minutes": 22.8,
+    "focus_ratio": 0.91,
+    "away_count": 2
+  },
+  {
+    "started_at": "2026-11-18T16:00:00-03:00",
+    "ended_at": "2026-11-18T17:00:00-03:00",
+    "session_minutes": 60,
+    "focus_minutes": 51.6,
+    "focus_ratio": 0.86,
+    "away_count": 0
+  },
+  {
+    "started_at": "2026-11-20T20:00:00-03:00",
+    "ended_at": "2026-11-20T20:50:00-03:00",
+    "session_minutes": 50,
+    "focus_minutes": 43.5,
+    "focus_ratio": 0.87,
+    "away_count": 2
+  },
+  {
+    "started_at": "2026-11-20T16:00:00-03:00",
+    "ended_at": "2026-11-20T16:25:00-03:00",
+    "session_minutes": 25,
+    "focus_minutes": 23.8,
+    "focus_ratio": 0.95,
+    "away_count": 2
+  },
+  {
+    "started_at": "2026-11-21T20:00:00-03:00",
+    "ended_at": "2026-11-21T20:25:00-03:00",
+    "session_minutes": 25,
+    "focus_minutes": 19.5,
+    "focus_ratio": 0.78,
+    "away_count": 1
+  },
+  {
+    "started_at": "2026-11-22T11:00:00-03:00",
+    "ended_at": "2026-11-22T12:00:00-03:00",
+    "session_minutes": 60,
+    "focus_minutes": 44.4,
+    "focus_ratio": 0.74,
+    "away_count": 3
+  },
+  {
+    "started_at": "2026-11-22T20:00:00-03:00",
+    "ended_at": "2026-11-22T20:25:00-03:00",
+    "session_minutes": 25,
+    "focus_minutes": 16.5,
+    "focus_ratio": 0.66,
+    "away_count": 3
+  },
+  {
+    "started_at": "2026-11-23T14:00:00-03:00",
+    "ended_at": "2026-11-23T15:30:00-03:00",
+    "session_minutes": 90,
+    "focus_minutes": 63.0,
+    "focus_ratio": 0.7,
+    "away_count": 3
+  },
+  {
+    "started_at": "2026-11-23T11:00:00-03:00",
+    "ended_at": "2026-11-23T11:50:00-03:00",
+    "session_minutes": 50,
+    "focus_minutes": 42.5,
+    "focus_ratio": 0.85,
+    "away_count": 3
+  },
+  {
+    "started_at": "2026-11-23T16:00:00-03:00",
+    "ended_at": "2026-11-23T16:40:00-03:00",
+    "session_minutes": 40,
+    "focus_minutes": 26.4,
+    "focus_ratio": 0.66,
+    "away_count": 1
+  }
+]

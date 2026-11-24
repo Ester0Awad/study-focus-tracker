@@ -41,10 +41,23 @@ A desk device that tracks how long I actually study. An Arduino detects when I'm
 | D2 | Button (other leg to GND; uses the internal pull-up) |
 | D13 | LED (+ leg), LED (−) leg through 220 Ω to GND |
 
+## Firmware
+
+Open `firmware/study_focus_tracker/study_focus_tracker.ino` in the Arduino IDE, select **Arduino Uno**, and upload. Open the Serial Monitor at **115200 baud** to see events like:
+
+```json
+{"event":"session_start","ms":5120,"focus_ms":0,"session_ms":0}
+{"event":"present","ms":8340,"focus_ms":0,"session_ms":3220}
+{"event":"away","ms":912400,"focus_ms":904060,"session_ms":907280}
+{"event":"session_end","ms":930000,"focus_ms":904060,"session_ms":924880}
+```
+
+Tune `PRESENT_DISTANCE_CM` at the top of the file to match the distance from the sensor to your chair.
+
 ## Roadmap
 
 - [x] Project plan, parts and wiring
-- [ ] Arduino firmware: presence detection, button, LED, JSON events over serial
+- [x] Arduino firmware: presence detection, button, LED, JSON events over serial
 - [ ] Laptop logger: read serial events, save sessions
 - [ ] Web dashboard: focus minutes per day
 - [ ] Photos, wiring diagram and demo video

@@ -1,0 +1,48 @@
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { parseLine, SessionTracker, focusByDay } from "../sessions.js";
+
+test("parseLine reads JSON events and ignores noise", () => {
+  assert.deepEqual(parseLine('{"event":"present","ms":10}\r'), { event: "present", ms: 10 });
+  assert.equal(parseLine("garbage"), null);
+  assert.equal(parseLine("{not json"), null);
+  assert.equal(parseLine('{"no_event":1}'), null);
+});
+
+test("a full session produces focus minutes and away count", () => {
+  const t = new SessionTracker();
+  const start = new Date("2026-11-23T20:00:00");
+  assert.equal(t.handle({ event: "session_start" }, start), null);
+  t.handle({ event: "present" });
+  t.handle({ event: "away" });
+  t.handle({ event: "present" });
+  const s = t.handle(
+    { event: "session_end", focus_ms: 2696780, session_ms: 3000000 },
+    new Date("2026-11-23T20:50:00")
+  );
+  assert.equal(s.session_minutes, 50);
+  assert.equal(s.focus_minutes, 44.9);
+  assert.equal(s.focus_ratio, 0.9);
+  assert.equal(s.away_count, 1);
+  assert.equal(s.started_at, start.toISOString());
+});
+
+test("session_end without a start is ignored", () => {
+  assert.equal(new SessionTracker().handle({ event: "session_end", focus_ms: 1, session_ms: 1 }), null);
+});
+
+test("a reboot drops the running session", () => {
+  const t = new SessionTracker();
+  t.handle({ event: "session_start" });
+  t.handle({ event: "boot" });
+  assert.equal(t.handle({ event: "session_end", focus_ms: 1000, session_ms: 1000 }), null);
+});
+
+test("focusByDay sums focus minutes per local day", () => {
+  const days = focusByDay([
+    { started_at: new Date("2026-11-22T10:00:00").toISOString(), focus_minutes: 30 },
+    { started_at: new Date("2026-11-22T15:00:00").toISOString(), focus_minutes: 15.5 },
+    { started_at: new Date("2026-11-23T09:00:00").toISOString(), focus_minutes: 40 },
+  ]);
+  assert.deepEqual(days, { "2026-11-22": 45.5, "2026-11-23": 40 });
+});

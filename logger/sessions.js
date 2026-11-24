@@ -1,0 +1,73 @@
+// Pure logic: turns Arduino events into finished study sessions.
+// Kept separate from the serial port so it can be tested without hardware.
+
+/**
+ * Parse one line from the Arduino. Returns the event object, or null for
+ * anything that isn't a JSON event (e.g. garbage printed while the board boots).
+ */
+export function parseLine(line) {
+  const trimmed = line.trim();
+  if (!trimmed.startsWith("{")) return null;
+  try {
+    const event = JSON.parse(trimmed);
+    return typeof event.event === "string" ? event : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Tracks the current session. Call handle(event, now) for every event;
+ * it returns a finished session object when a session ends, otherwise null.
+ * `now` is the laptop's Date, because the Arduino's clock resets on reboot.
+ */
+export class SessionTracker {
+  constructor() {
+    this.current = null;
+  }
+
+  handle(event, now = new Date()) {
+    switch (event.event) {
+      case "session_start":
+        this.current = { started_at: now.toISOString(), away_count: 0 };
+        return null;
+      case "away":
+        if (this.current) this.current.away_count++;
+        return null;
+      case "boot":
+        // The board restarted, so any running session was lost.
+        this.current = null;
+        return null;
+      case "session_end": {
+        if (!this.current) return null;
+        const session = {
+          ...this.current,
+          ended_at: now.toISOString(),
+          session_minutes: round1(event.session_ms / 60000),
+          focus_minutes: round1(event.focus_ms / 60000),
+        };
+        session.focus_ratio =
+          event.session_ms > 0 ? Math.round((event.focus_ms / event.session_ms) * 100) / 100 : 0;
+        this.current = null;
+        return session;
+      }
+      default:
+        return null;
+    }
+  }
+}
+
+/** Total focus minutes per local day (YYYY-MM-DD), from a list of sessions. */
+export function focusByDay(sessions) {
+  const days = {};
+  for (const s of sessions) {
+    const d = new Date(s.started_at);
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    days[key] = round1((days[key] ?? 0) + s.focus_minutes);
+  }
+  return days;
+}
+
+function round1(x) {
+  return Math.round(x * 10) / 10;
+}

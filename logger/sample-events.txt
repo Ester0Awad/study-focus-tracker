@@ -1,0 +1,7 @@
+{"event":"boot","ms":0}
+{"event":"session_start","ms":5120,"focus_ms":0,"session_ms":0}
+{"event":"present","ms":8340,"focus_ms":0,"session_ms":3220}
+{"event":"status","ms":65120,"focus_ms":56780,"session_ms":60000}
+{"event":"away","ms":912400,"focus_ms":904060,"session_ms":907280}
+{"event":"present","ms":1212400,"focus_ms":904060,"session_ms":1207280}
+{"event":"session_end","ms":3005120,"focus_ms":2696780,"session_ms":3000000}

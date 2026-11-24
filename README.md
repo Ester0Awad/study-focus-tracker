@@ -54,11 +54,29 @@ Open `firmware/study_focus_tracker/study_focus_tracker.ino` in the Arduino IDE, 
 
 Tune `PRESENT_DISTANCE_CM` at the top of the file to match the distance from the sensor to your chair.
 
+## Logger
+
+Requires Node.js 20+.
+
+```sh
+cd logger
+npm install
+npm test                                  # unit tests, no hardware needed
+npm start -- --replay sample-events.txt   # try it without the Arduino
+npm start -- /dev/tty.usbmodem1101        # real device (macOS: ls /dev/tty.usb*; Windows: COM3)
+```
+
+Each finished session is appended to `data/sessions.json`:
+
+```json
+{ "started_at": "...", "ended_at": "...", "session_minutes": 50, "focus_minutes": 44.9, "focus_ratio": 0.9, "away_count": 1 }
+```
+
 ## Roadmap
 
 - [x] Project plan, parts and wiring
 - [x] Arduino firmware: presence detection, button, LED, JSON events over serial
-- [ ] Laptop logger: read serial events, save sessions
+- [x] Laptop logger: read serial events, save sessions
 - [ ] Web dashboard: focus minutes per day
 - [ ] Photos, wiring diagram and demo video
 - [ ] Stretch: weekly goals, streaks, and a small OLED display on the device

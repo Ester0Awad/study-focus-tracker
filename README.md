@@ -1,5 +1,7 @@
 # Study Focus Tracker
 
+[![Test](https://github.com/Ester0Awad/study-focus-tracker/actions/workflows/test.yml/badge.svg)](https://github.com/Ester0Awad/study-focus-tracker/actions/workflows/test.yml)
+
 A desk device that tracks how long I actually study. An Arduino detects when I'm sitting at my desk, a button starts and stops study sessions, and a web dashboard shows my focus time per day.
 
 ![Dashboard showing focus minutes per day](docs/dashboard.jpg)

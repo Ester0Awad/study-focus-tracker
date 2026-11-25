@@ -76,6 +76,8 @@ Each finished session is appended to `data/sessions.json`:
 { "started_at": "...", "ended_at": "...", "session_minutes": 50, "focus_minutes": 44.9, "focus_ratio": 0.9, "away_count": 1 }
 ```
 
+To open your sessions in Excel or Google Sheets, run `npm run export-csv`, which writes `data/sessions.csv`.
+
 ## Dashboard
 
 ```sh

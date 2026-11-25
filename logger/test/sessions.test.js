@@ -46,3 +46,27 @@ test("focusByDay sums focus minutes per local day", () => {
   ]);
   assert.deepEqual(days, { "2026-11-22": 45.5, "2026-11-23": 40 });
 });
+
+test("sessionsToCsv writes a header and one row per session", async () => {
+  const { sessionsToCsv } = await import("../sessions.js");
+  const csv = sessionsToCsv([
+    {
+      started_at: "2026-11-24T20:00:00.000Z",
+      ended_at: "2026-11-24T20:50:00.000Z",
+      session_minutes: 50,
+      focus_minutes: 44.9,
+      focus_ratio: 0.9,
+      away_count: 1,
+    },
+  ]);
+  assert.equal(
+    csv,
+    "started_at,ended_at,session_minutes,focus_minutes,focus_ratio,away_count\n" +
+      "2026-11-24T20:00:00.000Z,2026-11-24T20:50:00.000Z,50,44.9,0.9,1\n"
+  );
+});
+
+test("sessionsToCsv with no sessions is just the header", async () => {
+  const { sessionsToCsv } = await import("../sessions.js");
+  assert.equal(sessionsToCsv([]).split("\n")[1], "");
+});

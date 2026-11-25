@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node index.js",
     "test": "node --test",
-    "dashboard": "node dashboard-server.js"
+    "dashboard": "node dashboard-server.js",
+    "export-csv": "node export-csv.js"
   },
   "license": "MIT",
   "dependencies": {

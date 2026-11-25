@@ -71,3 +71,22 @@ export function focusByDay(sessions) {
 function round1(x) {
   return Math.round(x * 10) / 10;
 }
+
+const CSV_COLUMNS = [
+  "started_at",
+  "ended_at",
+  "session_minutes",
+  "focus_minutes",
+  "focus_ratio",
+  "away_count",
+];
+
+/** Sessions as CSV text (header + one row per session), for spreadsheets. */
+export function sessionsToCsv(sessions) {
+  const escape = (v) => {
+    const s = v === undefined || v === null ? "" : String(v);
+    return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  };
+  const rows = sessions.map((s) => CSV_COLUMNS.map((c) => escape(s[c])).join(","));
+  return [CSV_COLUMNS.join(","), ...rows].join("\n") + "\n";
+}

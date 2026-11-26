@@ -89,6 +89,13 @@ Shows today's focus time, the last 7 days, the average focus ratio, your study s
 
 The streak counts days in a row with at least 30 focus minutes. To use a different daily goal, add it to the URL, for example `http://localhost:5173/?goal=60`.
 
+For a quick look in the terminal instead:
+
+```sh
+npm run summary              # last 7 days as a text bar chart, total, and streak
+npm run summary -- --sample  # same, using the sample data
+```
+
 ## Tuning
 
 All settings are constants at the top of `firmware/study_focus_tracker/study_focus_tracker.ino`:

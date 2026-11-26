@@ -36,6 +36,7 @@
     <div class="card"><div class="label">Last 7 days</div><div class="value" id="week">–</div></div>
     <div class="card"><div class="label">Avg. focus ratio</div><div class="value" id="ratio">–</div></div>
     <div class="card"><div class="label">Sessions</div><div class="value" id="count">–</div></div>
+    <div class="card"><div class="label">Streak (<span id="goal">30</span>+ min/day)</div><div class="value" id="streak">–</div></div>
   </section>
   <section class="card"><div class="label">Focus minutes per day (last 14 days)</div><svg id="chart" viewBox="0 0 800 260" role="img" aria-label="Bar chart of focus minutes per day"></svg></section>
   <section class="card" style="margin-top:12px"><div class="label">Recent sessions</div>
@@ -43,14 +44,13 @@
   </section>
 </main>
 <script type="module">
-import { focusByDay } from "/sessions.js";
+import { focusByDay, dayKey, studyStreak } from "/sessions.js";
 
 const res = await fetch("/api/sessions");
 const sessions = await res.json();
 document.getElementById("sample").hidden = res.headers.get("X-Sample-Data") !== "true";
 
 const byDay = focusByDay(sessions);
-const dayKey = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 const last = sessions.length ? new Date(sessions.at(-1).started_at) : new Date();
 const days = [...Array(14)].map((_, i) => { const d = new Date(last); d.setDate(d.getDate() - 13 + i); return d; });
 const fmt = (m) => m >= 60 ? `${Math.floor(m / 60)}h ${Math.round(m % 60)}m` : `${Math.round(m)}m`;
@@ -60,6 +60,12 @@ document.getElementById("week").textContent = fmt(days.slice(-7).reduce((s, d) =
 const ratio = sessions.length ? sessions.reduce((s, x) => s + x.focus_ratio, 0) / sessions.length : 0;
 document.getElementById("ratio").textContent = `${Math.round(ratio * 100)}%`;
 document.getElementById("count").textContent = sessions.length;
+
+// Daily goal can be changed with ?goal=45 in the URL.
+const goal = Number(new URLSearchParams(location.search).get("goal")) || 30;
+const streak = studyStreak(sessions, last, goal);
+document.getElementById("goal").textContent = goal;
+document.getElementById("streak").textContent = `${streak} ${streak === 1 ? "day" : "days"}`;
 
 // Bar chart
 const svg = document.getElementById("chart");

@@ -85,7 +85,32 @@ cd logger
 npm run dashboard   # then open http://localhost:5173
 ```
 
-Shows today's focus time, the last 7 days, the average focus ratio, a chart of focus minutes per day, and recent sessions. Until you've recorded real sessions it shows sample data (`dashboard/sample-sessions.json`).
+Shows today's focus time, the last 7 days, the average focus ratio, your study streak, a chart of focus minutes per day, and recent sessions. Until you've recorded real sessions it shows sample data (`dashboard/sample-sessions.json`).
+
+The streak counts days in a row with at least 30 focus minutes. To use a different daily goal, add it to the URL, for example `http://localhost:5173/?goal=60`.
+
+## Tuning
+
+All settings are constants at the top of `firmware/study_focus_tracker/study_focus_tracker.ino`:
+
+| Setting | Default | What it does |
+|---|---|---|
+| `PRESENT_DISTANCE_CM` | 70 | Anything closer than this counts as someone at the desk |
+| `PRESENT_CONFIRM_MS` | 3000 | How long you must be near before you count as present |
+| `AWAY_CONFIRM_MS` | 5000 | How long you must be gone before you count as away |
+| `STATUS_INTERVAL_MS` | 60000 | How often a `status` event is printed during a session |
+
+To pick `PRESENT_DISTANCE_CM`, open the Serial Monitor, sit normally, then lean back and stand up, and watch where the `present`/`away` events switch. Set it a little beyond your normal sitting distance.
+
+## Troubleshooting
+
+| Problem | Fix |
+|---|---|
+| Logger says it can't find the port | Close the Arduino IDE's Serial Monitor (only one program can use the port), then check the port name (`ls /dev/tty.usb*` on Mac) and pass it: `npm start -- /dev/tty.usbmodem1101`, or `npm start -- COM3` on Windows. |
+| Serial Monitor shows garbled text | Set the baud rate to **115200**. |
+| It always says `away` | Check TRIG is on D9 and ECHO on D10, and that the sensor faces where you sit. Very soft surfaces like a hoodie can absorb the sound, so try aiming at your chest or face. |
+| The button starts and stops many times | The wire is loose, or it's not wired from D2 to GND. |
+| A session disappeared | Sessions are only saved when they end. If the board resets (USB unplugged) during a session, that session is dropped. |
 
 ## Roadmap
 
@@ -94,7 +119,8 @@ Shows today's focus time, the last 7 days, the average focus ratio, a chart of f
 - [x] Laptop logger: read serial events, save sessions
 - [x] Web dashboard: focus minutes per day
 - [ ] Photos, wiring diagram and demo video
-- [ ] Stretch: weekly goals, streaks, and a small OLED display on the device
+- [x] Study streak with a daily goal
+- [ ] Stretch: weekly goals and a small OLED display on the device
 
 ## License
 

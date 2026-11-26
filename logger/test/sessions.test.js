@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { parseLine, SessionTracker, focusByDay } from "../sessions.js";
+import { parseLine, SessionTracker, focusByDay, studyStreak } from "../sessions.js";
 
 test("parseLine reads JSON events and ignores noise", () => {
   assert.deepEqual(parseLine('{"event":"present","ms":10}\r'), { event: "present", ms: 10 });
@@ -69,4 +69,23 @@ test("sessionsToCsv writes a header and one row per session", async () => {
 test("sessionsToCsv with no sessions is just the header", async () => {
   const { sessionsToCsv } = await import("../sessions.js");
   assert.equal(sessionsToCsv([]).split("\n")[1], "");
+});
+
+const day = (date, focus_minutes) => ({ started_at: `${date}T20:00:00`, focus_minutes });
+
+test("studyStreak counts consecutive days that meet the goal", () => {
+  const sessions = [day("2026-11-22", 45), day("2026-11-24", 40), day("2026-11-25", 20), day("2026-11-25", 15), day("2026-11-26", 60)];
+  // 24th, 25th (20 + 15 = 35) and 26th meet 30 minutes; the 23rd breaks the chain.
+  assert.equal(studyStreak(sessions, new Date("2026-11-26T22:00:00")), 3);
+});
+
+test("studyStreak keeps yesterday's streak until today is over", () => {
+  const sessions = [day("2026-11-24", 40), day("2026-11-25", 50)];
+  assert.equal(studyStreak(sessions, new Date("2026-11-26T09:00:00")), 2);
+  assert.equal(studyStreak(sessions, new Date("2026-11-27T09:00:00")), 0);
+});
+
+test("studyStreak respects a custom goal", () => {
+  const sessions = [day("2026-11-25", 40), day("2026-11-26", 40)];
+  assert.equal(studyStreak(sessions, new Date("2026-11-26T22:00:00"), 60), 0);
 });

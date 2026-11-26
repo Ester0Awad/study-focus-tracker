@@ -57,15 +57,37 @@ export class SessionTracker {
   }
 }
 
+/** Local calendar day of a Date as YYYY-MM-DD. */
+export function dayKey(d) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
 /** Total focus minutes per local day (YYYY-MM-DD), from a list of sessions. */
 export function focusByDay(sessions) {
   const days = {};
   for (const s of sessions) {
-    const d = new Date(s.started_at);
-    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    const key = dayKey(new Date(s.started_at));
     days[key] = round1((days[key] ?? 0) + s.focus_minutes);
   }
   return days;
+}
+
+/**
+ * Number of days in a row, up to `today`, with at least `goalMinutes` of focus.
+ * If today's goal isn't met yet, the streak counts back from yesterday, so it
+ * doesn't drop to 0 in the morning before you've studied.
+ */
+export function studyStreak(sessions, today = new Date(), goalMinutes = 30) {
+  const byDay = focusByDay(sessions);
+  const met = (d) => (byDay[dayKey(d)] ?? 0) >= goalMinutes;
+  const d = new Date(today);
+  if (!met(d)) d.setDate(d.getDate() - 1);
+  let streak = 0;
+  while (met(d)) {
+    streak++;
+    d.setDate(d.getDate() - 1);
+  }
+  return streak;
 }
 
 function round1(x) {

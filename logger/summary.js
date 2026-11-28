@@ -1,6 +1,7 @@
-// Prints a quick text summary of the last 7 days, without opening the dashboard.
-// Usage: npm run summary            (your sessions)
-//        npm run summary -- --sample (the dashboard's sample data)
+// Prints a quick text summary of the last few days, without opening the dashboard.
+// Usage: npm run summary              (your sessions, last 7 days)
+//        npm run summary -- --days 14 (a different number of days)
+//        npm run summary -- --sample   (the dashboard's sample data)
 import { existsSync, readFileSync } from "node:fs";
 import { dayKey, focusByDay, studyStreak } from "./sessions.js";
 
@@ -13,14 +14,21 @@ if (!existsSync(file)) {
   process.exit(1);
 }
 
+const daysArg = process.argv.indexOf("--days");
+const numDays = daysArg === -1 ? 7 : Number(process.argv[daysArg + 1]);
+if (!Number.isInteger(numDays) || numDays < 1) {
+  console.error("--days needs a whole number, e.g. --days 14");
+  process.exit(1);
+}
+
 const sessions = JSON.parse(readFileSync(file, "utf8"));
 const byDay = focusByDay(sessions);
 const end = sessions.length ? new Date(sessions.at(-1).started_at) : new Date();
 const max = Math.max(60, ...Object.values(byDay));
 
 let total = 0;
-console.log("Focus minutes, last 7 days\n");
-for (let i = 6; i >= 0; i--) {
+console.log(`Focus minutes, last ${numDays} days\n`);
+for (let i = numDays - 1; i >= 0; i--) {
   const d = new Date(end);
   d.setDate(d.getDate() - i);
   const mins = byDay[dayKey(d)] ?? 0;

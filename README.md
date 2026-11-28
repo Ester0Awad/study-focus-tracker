@@ -96,6 +96,7 @@ For a quick look in the terminal instead:
 
 ```sh
 npm run summary              # last 7 days as a text bar chart, total, and streak
+npm run summary -- --days 14 # a longer stretch
 npm run summary -- --sample  # same, using the sample data
 ```
 

@@ -136,6 +136,10 @@ To pick `PRESENT_DISTANCE_CM`, open the Serial Monitor, sit normally, then lean 
 - [x] Study streak with a daily goal
 - [ ] Stretch: weekly goals and a small OLED display on the device
 
+## Contributing
+
+Ideas and fixes are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for how to run everything without the hardware.
+
 ## License
 
 MIT

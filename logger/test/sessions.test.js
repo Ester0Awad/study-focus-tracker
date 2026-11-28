@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { parseLine, SessionTracker, focusByDay, studyStreak } from "../sessions.js";
+import { parseLine, SessionTracker, focusByDay, studyStreak, pickArduinoPort } from "../sessions.js";
 
 test("parseLine reads JSON events and ignores noise", () => {
   assert.deepEqual(parseLine('{"event":"present","ms":10}\r'), { event: "present", ms: 10 });
@@ -88,4 +88,14 @@ test("studyStreak keeps yesterday's streak until today is over", () => {
 test("studyStreak respects a custom goal", () => {
   const sessions = [day("2026-11-25", 40), day("2026-11-26", 40)];
   assert.equal(studyStreak(sessions, new Date("2026-11-26T22:00:00"), 60), 0);
+});
+
+test("pickArduinoPort finds the Arduino among other serial ports", () => {
+  const ports = [
+    { path: "/dev/tty.Bluetooth-Incoming-Port" },
+    { path: "/dev/tty.usbmodem1101", vendorId: "2341", manufacturer: "Arduino (www.arduino.cc)" },
+  ];
+  assert.equal(pickArduinoPort(ports), "/dev/tty.usbmodem1101");
+  assert.equal(pickArduinoPort([{ path: "COM5", vendorId: "1A86" }]), "COM5"); // CH340 clone
+  assert.equal(pickArduinoPort([{ path: "/dev/tty.Bluetooth-Incoming-Port" }]), null);
 });

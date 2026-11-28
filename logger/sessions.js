@@ -112,3 +112,19 @@ export function sessionsToCsv(sessions) {
   const rows = sessions.map((s) => CSV_COLUMNS.map((c) => escape(s[c])).join(","));
   return [CSV_COLUMNS.join(","), ...rows].join("\n") + "\n";
 }
+
+// USB vendor IDs used by Arduino boards and common clone USB chips.
+const ARDUINO_VENDOR_IDS = ["2341", "2a03", "1a86", "0403", "10c4"];
+
+/**
+ * Pick the Arduino from a list of serial ports (as returned by SerialPort.list()).
+ * Returns the port path, or null if no Arduino-looking port is found.
+ */
+export function pickArduinoPort(ports) {
+  const match = ports.find(
+    (p) =>
+      ARDUINO_VENDOR_IDS.includes((p.vendorId ?? "").toLowerCase()) ||
+      /arduino/i.test(p.manufacturer ?? "")
+  );
+  return match ? match.path : null;
+}

@@ -2,6 +2,7 @@
 // to data/sessions.json.
 //
 // Usage:
+//   npm start                               (finds the Arduino automatically)
 //   npm start -- /dev/tty.usbmodem1101      (macOS; see `ls /dev/tty.usb*`)
 //   npm start -- COM3                       (Windows)
 //   npm start -- --replay sample-events.txt (no hardware: replay recorded lines)
@@ -9,7 +10,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createInterface } from "node:readline";
 import { createReadStream } from "node:fs";
-import { parseLine, SessionTracker } from "./sessions.js";
+import { parseLine, pickArduinoPort, SessionTracker } from "./sessions.js";
 
 const DATA_FILE = new URL("../data/sessions.json", import.meta.url);
 
@@ -31,14 +32,16 @@ async function openLines(args) {
   if (args[0] === "--replay") {
     return createInterface({ input: createReadStream(args[1]) });
   }
-  if (!args[0]) {
-    console.error("Usage: npm start -- <serial port>   or   npm start -- --replay <file>");
-    process.exit(1);
-  }
   const { SerialPort } = await import("serialport");
   const { ReadlineParser } = await import("@serialport/parser-readline");
-  const port = new SerialPort({ path: args[0], baudRate: 115200 });
-  console.log(`Listening on ${args[0]}...`);
+  const path = args[0] ?? pickArduinoPort(await SerialPort.list());
+  if (!path) {
+    console.error("No Arduino found. Plug it in, or pass the port: npm start -- <serial port>");
+    console.error("(Or try without hardware: npm start -- --replay sample-events.txt)");
+    process.exit(1);
+  }
+  const port = new SerialPort({ path, baudRate: 115200 });
+  console.log(`Listening on ${path}...`);
   return port.pipe(new ReadlineParser({ delimiter: "\n" }));
 }
 

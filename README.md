@@ -67,7 +67,8 @@ cd logger
 npm install
 npm test                                  # unit tests, no hardware needed
 npm start -- --replay sample-events.txt   # try it without the Arduino
-npm start -- /dev/tty.usbmodem1101        # real device (macOS: ls /dev/tty.usb*; Windows: COM3)
+npm start                                 # real device, found automatically
+npm start -- /dev/tty.usbmodem1101        # or name the port (macOS: ls /dev/tty.usb*; Windows: COM3)
 ```
 
 Each finished session is appended to `data/sessions.json`:

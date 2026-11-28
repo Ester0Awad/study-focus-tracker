@@ -23,6 +23,8 @@
   table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
   th, td { text-align: left; padding: 8px 4px; border-bottom: 1px solid var(--grid); }
   th { color: var(--muted); font-weight: 500; font-size: 13px; }
+  .progress { height: 10px; background: var(--grid); border-radius: 5px; overflow: hidden; margin-top: 8px; }
+  .progress > div { height: 100%; background: var(--bar); border-radius: 5px; }
   .notice { background: var(--card); border-left: 3px solid var(--bar); padding: 8px 12px; border-radius: 6px; margin-bottom: 16px; }
 </style>
 </head>
@@ -38,13 +40,16 @@
     <div class="card"><div class="label">Sessions</div><div class="value" id="count">–</div></div>
     <div class="card"><div class="label">Streak (<span id="goal">30</span>+ min/day)</div><div class="value" id="streak">–</div></div>
   </section>
+  <section class="card" style="margin-bottom:12px"><div class="label">This week: <span id="week-done">–</span> of <span id="week-goal">–</span> goal</div>
+    <div class="progress" role="progressbar" aria-label="Weekly goal progress" aria-valuemin="0" aria-valuemax="100" id="week-bar"><div style="width:0"></div></div>
+  </section>
   <section class="card"><div class="label">Focus minutes per day (last 14 days)</div><svg id="chart" viewBox="0 0 800 260" role="img" aria-label="Bar chart of focus minutes per day"></svg></section>
   <section class="card" style="margin-top:12px"><div class="label">Recent sessions</div>
     <table><thead><tr><th>Start</th><th>Length</th><th>Focus</th><th>Focus ratio</th><th>Times away</th></tr></thead><tbody id="rows"></tbody></table>
   </section>
 </main>
 <script type="module">
-import { focusByDay, dayKey, studyStreak } from "/sessions.js";
+import { focusByDay, focusByWeek, dayKey, studyStreak } from "/sessions.js";
 
 const res = await fetch("/api/sessions");
 const sessions = await res.json();
@@ -66,6 +71,18 @@ const goal = Number(new URLSearchParams(location.search).get("goal")) || 30;
 const streak = studyStreak(sessions, last, goal);
 document.getElementById("goal").textContent = goal;
 document.getElementById("streak").textContent = `${streak} ${streak === 1 ? "day" : "days"}`;
+
+// Weekly goal (Monday to Sunday). Defaults to 5 days' worth of the daily goal; change with ?week=300.
+const weekGoal = Number(new URLSearchParams(location.search).get("week")) || goal * 5;
+const monday = new Date(last);
+monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
+const weekDone = focusByWeek(sessions)[dayKey(monday)] ?? 0;
+const pct = Math.min(100, Math.round((weekDone / weekGoal) * 100));
+document.getElementById("week-done").textContent = fmt(weekDone);
+document.getElementById("week-goal").textContent = fmt(weekGoal);
+const bar = document.getElementById("week-bar");
+bar.setAttribute("aria-valuenow", pct);
+bar.firstElementChild.style.width = `${pct}%`;
 
 // Bar chart
 const svg = document.getElementById("chart");

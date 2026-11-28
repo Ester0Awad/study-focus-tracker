@@ -90,6 +90,8 @@ Shows today's focus time, the last 7 days, the average focus ratio, your study s
 
 The streak counts days in a row with at least 30 focus minutes. To use a different daily goal, add it to the URL, for example `http://localhost:5173/?goal=60`.
 
+The weekly progress bar counts Monday to Sunday. Its goal is 5 days of your daily goal (150 minutes by default); set your own with `?week=300`.
+
 For a quick look in the terminal instead:
 
 ```sh

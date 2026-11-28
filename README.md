@@ -36,6 +36,8 @@ A desk device that tracks how long I actually study. An Arduino detects when I'm
 
 ## Wiring
 
+![Wiring diagram: HC-SR04 on 5V, D9, D10 and GND; button from D2 to GND; LED on D13 through a 220 ohm resistor to GND](docs/wiring.svg)
+
 | Arduino pin | Connects to |
 |---|---|
 | 5V | HC-SR04 VCC |
@@ -129,7 +131,8 @@ To pick `PRESENT_DISTANCE_CM`, open the Serial Monitor, sit normally, then lean 
 - [x] Arduino firmware: presence detection, button, LED, JSON events over serial
 - [x] Laptop logger: read serial events, save sessions
 - [x] Web dashboard: focus minutes per day
-- [ ] Photos, wiring diagram and demo video
+- [x] Wiring diagram
+- [ ] Photos and demo video
 - [x] Study streak with a daily goal
 - [ ] Stretch: weekly goals and a small OLED display on the device
 

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" font-family="Helvetica, Arial, sans-serif" font-size="14">
+  <title>Study Focus Tracker wiring: Arduino Uno, HC-SR04, button and LED</title>
+  <rect width="720" height="420" fill="#ffffff"/>
+
+  <!-- Arduino Uno -->
+  <rect x="40" y="60" width="200" height="300" rx="10" fill="#1f6f8b" stroke="#134a5c" stroke-width="2"/>
+  <text x="140" y="95" fill="#fff" font-size="18" font-weight="bold" text-anchor="middle">Arduino Uno</text>
+  <g fill="#fff" text-anchor="end">
+    <text x="228" y="134">5V</text>
+    <text x="228" y="174">GND</text>
+    <text x="228" y="214">D9</text>
+    <text x="228" y="254">D10</text>
+    <text x="228" y="294">D2</text>
+    <text x="228" y="334">D13</text>
+  </g>
+  <g fill="#f2c94c">
+    <circle cx="240" cy="130" r="5"/><circle cx="240" cy="170" r="5"/><circle cx="240" cy="210" r="5"/>
+    <circle cx="240" cy="250" r="5"/><circle cx="240" cy="290" r="5"/><circle cx="240" cy="330" r="5"/>
+  </g>
+
+  <!-- HC-SR04 -->
+  <rect x="500" y="40" width="180" height="180" rx="8" fill="#2d6cdf" stroke="#1d4ea6" stroke-width="2"/>
+  <text x="590" y="70" fill="#fff" font-size="16" font-weight="bold" text-anchor="middle">HC-SR04</text>
+  <circle cx="555" cy="105" r="22" fill="#d9d9d9" stroke="#999"/><circle cx="625" cy="105" r="22" fill="#d9d9d9" stroke="#999"/>
+  <g fill="#fff">
+    <text x="512" y="154">VCC</text><text x="512" y="174">TRIG</text>
+    <text x="512" y="194">ECHO</text><text x="512" y="214">GND</text>
+  </g>
+
+  <!-- Wires: 5V, GND (black), TRIG, ECHO -->
+  <g fill="none" stroke-width="3" stroke-linecap="round">
+    <path d="M245 130 H380 V150 H500" stroke="#d64545"/>
+    <path d="M245 210 H400 V170 H500" stroke="#27ae60"/>
+    <path d="M245 250 H420 V190 H500" stroke="#f2994a"/>
+    <path d="M245 170 H300 V390 H460 V210 H500" stroke="#333"/>
+  </g>
+
+  <!-- Button on D2 -->
+  <path d="M245 290 H330" stroke="#9b51e0" stroke-width="3" fill="none"/>
+  <rect x="330" y="275" width="40" height="30" rx="4" fill="#eee" stroke="#555"/>
+  <circle cx="350" cy="290" r="8" fill="#555"/>
+  <text x="350" y="265" text-anchor="middle" fill="#333">Button</text>
+  <path d="M370 290 H385 V390" stroke="#333" stroke-width="3" fill="none"/>
+
+  <!-- LED on D13 with resistor -->
+  <path d="M245 330 H500" stroke="#56ccf2" stroke-width="3" fill="none"/>
+  <polygon points="500,318 500,342 522,330" fill="#eb5757"/>
+  <line x1="522" y1="318" x2="522" y2="342" stroke="#eb5757" stroke-width="3"/>
+  <text x="511" y="308" text-anchor="middle" fill="#333">LED</text>
+  <path d="M522 330 H545" stroke="#333" stroke-width="3" fill="none"/>
+  <rect x="545" y="322" width="50" height="16" rx="3" fill="#e8d3a7" stroke="#8a6d3b"/>
+  <text x="570" y="360" text-anchor="middle" fill="#333">220 Ω</text>
+  <path d="M595 330 H620 V390 H460" stroke="#333" stroke-width="3" fill="none"/>
+
+  <!-- Legend -->
+  <g font-size="12" fill="#333">
+    <text x="40" y="30">Black = GND (all grounds join).  Button: D2 to GND, uses the built-in pull-up.  LED: long leg (+) to D13.</text>
+  </g>
+</svg>

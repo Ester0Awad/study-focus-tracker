@@ -73,6 +73,20 @@ export function focusByDay(sessions) {
 }
 
 /**
+ * Total focus minutes per week, keyed by the Monday that starts the week (YYYY-MM-DD).
+ */
+export function focusByWeek(sessions) {
+  const weeks = {};
+  for (const s of sessions) {
+    const d = new Date(s.started_at);
+    d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); // back to Monday
+    const key = dayKey(d);
+    weeks[key] = round1((weeks[key] ?? 0) + s.focus_minutes);
+  }
+  return weeks;
+}
+
+/**
  * Number of days in a row, up to `today`, with at least `goalMinutes` of focus.
  * If today's goal isn't met yet, the streak counts back from yesterday, so it
  * doesn't drop to 0 in the morning before you've studied.

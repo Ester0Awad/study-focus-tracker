@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { parseLine, SessionTracker, focusByDay, studyStreak, pickArduinoPort } from "../sessions.js";
+import { parseLine, SessionTracker, focusByDay, studyStreak, pickArduinoPort, focusByWeek } from "../sessions.js";
 
 test("parseLine reads JSON events and ignores noise", () => {
   assert.deepEqual(parseLine('{"event":"present","ms":10}\r'), { event: "present", ms: 10 });
@@ -98,4 +98,14 @@ test("pickArduinoPort finds the Arduino among other serial ports", () => {
   assert.equal(pickArduinoPort(ports), "/dev/tty.usbmodem1101");
   assert.equal(pickArduinoPort([{ path: "COM5", vendorId: "1A86" }]), "COM5"); // CH340 clone
   assert.equal(pickArduinoPort([{ path: "/dev/tty.Bluetooth-Incoming-Port" }]), null);
+});
+
+test("focusByWeek groups sessions into Monday-to-Sunday weeks", () => {
+  const sessions = [
+    day("2026-11-22", 30), // Sunday: belongs to the week of Mon Nov 16
+    day("2026-11-23", 40), // Monday
+    day("2026-11-27", 25.5), // Friday, same week
+    day("2026-11-29", 10), // Sunday, same week
+  ];
+  assert.deepEqual(focusByWeek(sessions), { "2026-11-16": 30, "2026-11-23": 75.5 });
 });
